@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="bn">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>NESCO Card Generator</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+    <script src="libs/xlsx.full.min.js"></script>
+    <script src="libs/qrcode.min.js"></script>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <section class="upload-section" id="uploadSection">
+      <h1 class="upload-title">NESCO Premium Card</h1>
+      <p class="upload-sub">
+        ফাইল আপলোড করুন, প্রিমিয়াম কার্ড অটো জেনারেট হবে
+      </p>
+      <div class="format-badges">
+        <span class="format-badge excel"
+          ><i class="fas fa-file-excel"></i> Excel</span
+        >
+        <span class="format-badge json"
+          ><i class="fas fa-file-code"></i> JSON</span
+        >
+      </div>
+      <div class="drop-zone" id="dropZone">
+        <div class="icon"><i class="fas fa-cloud-upload-alt"></i></div>
+        <h3>ফাইল ড্রপ করুন বা ক্লিক করুন</h3>
+        <p>Excel অথবা JSON ফাইল</p>
+        <input type="file" id="fileInput" accept=".xlsx,.xls,.json" />
+      </div>
+      <div class="file-info" id="fileInfo">
+        <i class="fas fa-check-circle"></i><span id="fileName"></span
+        ><span class="ft" id="fileType"></span>
+      </div>
+      <div class="mapping-panel" id="mappingPanel">
+        <h3>
+          <i class="fas fa-columns" style="margin-right: 8px"></i>কলাম ম্যাপিং
+        </h3>
+        <div class="mapping-hint">
+          <i class="fas fa-info-circle" style="margin-right: 6px"></i>কলাম
+          অটো-ডিটেক্ট হবে। প্রয়োজনে পরিবর্তন করুন।
+        </div>
+        <div id="mappingRows"></div>
+      </div>
+      <button class="generate-btn" id="generateBtn" onclick="processFile()">
+        <i class="fas fa-magic"></i> কার্ড তৈরি করুন
+      </button>
+      <button class="demo-btn" onclick="loadDemo()">
+        <i class="fas fa-play" style="margin-right: 6px"></i> ডেমো দিয়ে দেখুন
+      </button>
+    </section>
+
+    <section class="cards-section" id="cardsSection">
+      <div class="toolbar">
+        <div class="toolbar-left">
+          <h2>
+            <i class="fas fa-id-card" style="margin-right: 8px"></i> প্রিমিয়াম
+            কার্ড
+          </h2>
+          <span class="card-count" id="cardCount">০টি</span>
+        </div>
+        <div class="search-wrap">
+          <input
+            type="text"
+            class="search-box"
+            id="searchBox"
+            placeholder="SL, কনজুমার, মোবাইল, রেফারেন্স বা মিটার নম্বর লিখুন..."
+            oninput="handleSearch()"
+          />
+          <button class="search-clear" id="searchClear" onclick="clearSearch()">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+        <div class="toolbar-right">
+          <button class="tb-btn" onclick="goBack()">
+            <i class="fas fa-arrow-left"></i> ফিরে যান
+          </button>
+          <button
+            class="tb-btn primary"
+            id="printBtn"
+            onclick="printVisibleCards()"
+          >
+            <i class="fas fa-print"></i> সব প্রিন্ট
+          </button>
+        </div>
+      </div>
+
+      <div class="filter-info" id="filterInfo">
+        <i class="fas fa-filter"></i><span id="filterText"></span>
+        <button class="clear-filter" onclick="clearSearch()">
+          <i class="fas fa-times" style="margin-right: 4px"></i>মুছুন
+        </button>
+      </div>
+      <div class="cards-grid" id="cardsGrid"></div>
+      <div class="pagination" id="pagination"></div>
+    </section>
+
+    <div class="loading-overlay" id="loading">
+      <div class="spinner"></div>
+      <div class="loading-text" id="loadingText"></div>
+    </div>
+    <div class="toast" id="toast"></div>
+
+    <script src="card.js"></script>
+  </body>
+</html>
